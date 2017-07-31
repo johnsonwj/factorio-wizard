@@ -1,0 +1,150 @@
+version: '15.31'
+lab-count: 8
+aliases:
+  iron: iron-plate
+  copper: copper-plate
+  steel: steel-plate
+  plastic: plastic-bar
+  acid: sulfuric-acid
+
+  gear: iron-gear-wheel
+
+  green-circuit: electronic-circuit
+  red-circuit: advanced-circuit
+  blue-circuit: processing-unit
+
+  yellow-ammo: firearm-magazine
+  red-ammo: piercing-rounds-magazine
+  uranium-ammo: uranium-rounds-magazine
+  turret: gun-turret
+
+  speed-module-1: speed-module
+  productivity-module-1: productivity-module
+  effectivity-module-1: effectivity-module
+  
+  red-science: science-pack-1
+  green-science: science-pack-2
+  blue-science: science-pack-3
+  black-science: military-science-pack
+  purple-science: production-science-pack
+  yellow-science: high-tech-science-pack
+
+  yellow-belt: transport-belt
+  red-belt: fast-transport-belt
+  express-belt: express-transport-belt
+
+  yellow-underground-belt: underground-belt
+  red-underground-belt: fast-underground-belt
+  blue-underground-belt: express-underground-belt
+
+  yellow-splitter: splitter
+  red-splitter: fast-splitter
+  blue-splitter: express-splitter
+
+# phases of science consumption
+science:
+  - red
+  - green
+  - black
+  - blue
+  - purple
+  - yellow
+
+# recipes to produce on-site wherever they are needed (i.e. defer to their ingredients)
+onsite:
+  copper-wire
+
+
+# output phases for outpost production
+# each phase is list of maps from an item name (or alias) to the number of items to keep on hand
+# (exported amounts are handled automatically and in addition to the on-hand stockpile)
+# phases are cumulative (e.g. Phase 2 automatically also includes all items from Phase 1)
+outposts:
+  tech:
+    - green-circuit: 400
+    - red-circuit: 200
+      solar-panel: 100
+      accumulator: 100
+    - blue-circuit: 100
+
+  weapons:
+    - red-ammo: 1600
+      grenade: 100
+      turret: 50
+      stone-wall: 200
+      gate: 50
+    - laser-turret: 50
+    - uranium-ammo: 1600
+
+  chemicals:
+    - plastic: 1600
+      battery: 800
+      lubricant: 0
+    - explosive: 200
+      
+  central:
+    - inserter: 100
+      yellow-belt: 200
+      engine-unit: 100
+      railway: 400
+      rail-signal: 50
+      rail-chain-signal: 50
+      electric-mining-drill: 50
+      steel-furnace: 50
+      steel-chest: 100
+      boiler: 50
+      steam-engine: 50
+    - electric-motor: 0
+      flying-robot-frame: 400
+      roboport: 50
+      passive-provider-chest: 200
+      active-provider-chest: 50
+      storage-chest: 100
+      requester-chest: 400
+      electric-furnace: 100
+    - centrifuge: 100
+      heat-exchanger: 100
+      steam-turbine: 100
+
+  copper:
+    - copper: 1000
+
+  iron:
+    - iron: 1000
+      gear: 1000
+      steel: 1000
+
+  coal:
+    - coal: 500
+
+  stone:
+    - stone: 100
+      landfill: 200
+      concrete: 200
+      stone-brick: 100
+
+
+# can't get this out of the game, so pulling from the website :(
+additional-data:
+  # energy consumption by smelting machines (in kW)
+  smelting-burner-consumption:
+    stone-furnace: 180.0
+    steel-furnace: 180.0
+    electric-furnace: 0.0
+
+  # burning fuel values (in MJ)
+  fuel-values:
+    coal: 8.0
+    solid-fuel: 25.0
+
+  # smelting speeds (in Hz)
+  smelting-speed:
+    stone-furnace: 1.0
+    steel-furnace: 2.0
+    electric-furnace: 2.0
+
+  # crafting speeds (in Hz)
+  crafting-speed:
+    assembling-machine-1: 0.5
+    assembling-machine-2: 0.75
+    assembling-machine-3: 1.25
