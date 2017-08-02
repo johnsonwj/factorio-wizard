@@ -2,10 +2,10 @@
 
 module Factorio.Data.Config where
 
-import Data.Map.Strict (Map)
-import Data.Yaml (FromJSON(..), (.:), withObject)
 import Control.Applicative
+import Data.Map.Strict (Map)
 import Data.Text
+import Data.Yaml (FromJSON(..), (.:), withObject)
 
 type RecipeAlias = Text
 type RecipeName = Text
@@ -55,4 +55,4 @@ instance FromJSON Config where
     <*> v .: "onsite"
     <*> v .: "outposts"
     <*> v .: "additional-data"
-                     
+                    
