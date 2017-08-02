@@ -3,7 +3,7 @@
 module Main where
 
 import Factorio.Data.Env
-import Factorio.Wizard.Factory
+import Factorio.Factory
 
 import Control.Monad.Reader (Reader, runReader, ask)
 import qualified Data.Map.Strict as M

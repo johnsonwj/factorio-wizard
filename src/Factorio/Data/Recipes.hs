@@ -4,7 +4,7 @@ module Factorio.Data.Recipes where
 
 import Factorio.Data.Config
 
-import Data.Map.Strict (Map)
+import Data.Map.Strict (Map, (!))
 import qualified Data.Map.Strict as M
 import Data.Text
 import Data.Yaml (FromJSON(..), (.:), (.:?), (.!=), withObject, withText)
