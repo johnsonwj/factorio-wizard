@@ -1,2 +1,0 @@
-module Factorio.Optimization where
-
