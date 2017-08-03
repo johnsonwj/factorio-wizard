@@ -11,7 +11,7 @@ module Factorio.Factory ( planFactory
 import Factorio.Data.Env
 
 import Control.Monad.Reader (Reader, ask)
-import Data.Map.Strict (Map, (!), (!?))
+import Data.Map.Strict (Map, (!))
 import qualified Data.Map.Strict as M
 import qualified Data.Sequence as Seq
 
@@ -19,36 +19,34 @@ import qualified Data.Sequence as Seq
 (Just x)  ?: y = x
 Nothing   ?: y = y
 
-type ProductionSchedule = (Map RecipeName Float)
+type ProductionSchedule' = Map RecipeName Float
+newtype ProductionSchedule = ProductionSchedule ProductionSchedule'
 
 instance Monoid ProductionSchedule where
-  mempty = M.empty
-  mappend s1 s2 =
+  mempty = ProductionSchedule M.empty
+  mappend (ProductionSchedule s1) (ProductionSchedule s2) =
     let foldRecipes recipe rate newSchedule = M.insert recipe newRate newSchedule
-          where newRate = (newSchedule !? recipe) ?: 0.0 + rate
-    in M.foldrWithKey foldRecipes s1 s2
+          where newRate = M.lookup newSchedule recipe ?: 0.0 + rate
+    in ProductionSchedule $ M.foldrWithKey foldRecipes s1 s2
 
-type Outpost = (Int, ProductionSchedule)
-type OutpostPhase = (OutpostName, Int, ProductionSchedule)
+type Outpost = (Int, ProductionSchedule')
+type OutpostPhase = (OutpostName, Int, ProductionSchedule')
 
-{-
-stockpileToRate :: Int -> StockpilePhase -> ProductionSchedule
+stockpileToRate :: Float -> StockpilePhase -> ProductionSchedule'
 stockpileToRate stockpilePeriod = M.map toRate
-    where toRate s = toIntegral s / 60.0 * toIntegral stockpilePeriod
+    where toRate s = s / 60.0 * stockpilePeriod
 
-flattenOutpostPlan :: Int -> OutpostPlan -> [OutpostPhase]
-flattenOutpostPlan stockpilePeriod =
-  let phaseStockpiles stockpiles =
-        zip [1..] (map (stockpileToRate stockpilePeriod) stockpiles)
-      planFolder oname stockpiles outposts =
-        outposts >< (oname, )
-  -}
-  in Seq.toList $ Map.foldrWithKey planFolder Seq.empty
+flattenOutpostPlan :: Float -> OutpostPlan -> [OutpostPhase]
+flattenOutpostPlan stockpilePeriod oplan = concat $ do
+  (oname, stockpilePhases) <- toList oplan
+  let schedules = map (stockpileToRate stockpilePeriod) stockpilePhases
+      indexedSchedules = zip [0..] schedules
+  return $ map (\(phase, stockpiles) -> (oname, phase, stockpiles)) indexedSchedules
 
 type Factory = Map OutpostName Outpost
 
                     -- OutpostUpgrade (name) (delta)
-data FactoryUpgrade = OutpostUpgrade OutpostName ProductionSchedule
+data FactoryUpgrade = OutpostUpgrade OutpostName ProductionSchedule'
                     | ScienceUpgrade ScienceType
 
 -- these versions do not include transitive dependencies from onsite recipes

@@ -16,7 +16,7 @@ type OutpostName = Text
 type ScienceType = Text
 
 type OnsiteRecipes = [RecipeName]
-type StockpilePhase = Map RecipeName Int
+type StockpilePhase = Map RecipeName Float
 type OutpostPlan = Map OutpostName [StockpilePhase]
 
 type FurnaceName = Text
@@ -38,8 +38,8 @@ instance FromJSON AdditionalData where
   parseJSON = genericParseJSON jsonOptions
 
 data Config = Config { version :: Text
-                     , labCount :: Int
-                     , stockpilePeriod :: Int
+                     , labCount :: Float
+                     , stockpilePeriod :: Float
                      , aliases :: Map RecipeAlias RecipeName
                      , science :: [ScienceType]
                      , onsite :: OnsiteRecipes
