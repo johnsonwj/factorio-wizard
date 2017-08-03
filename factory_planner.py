@@ -231,7 +231,7 @@ def print_results():
     for oname, (phase, sched) in factory.items():
         print('{}-{:d}: {}'.format(oname, phase, list(sched.keys())))
 
-    for caption, reqs in {'miners': miners, 'smelters': smelters, 'crafters': crafters}.items():
+    for caption, reqs in [('miners', miners), ('smelters', smelters), ('crafters', crafters)]:
         print('{}:'.format(caption))
         for req_name, count in reqs.items():
             print('  {}: {:d}'.format(req_name, count))
