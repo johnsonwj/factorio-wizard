@@ -18,6 +18,9 @@ aliases:
   red-circuit: advanced-circuit
   blue-circuit: processing-unit
 
+  engine: engine-unit
+  electric-motor: electric-engine-unit
+
   yellow-ammo: firearm-magazine
   red-ammo: piercing-rounds-magazine
   uranium-ammo: uranium-rounds-magazine
@@ -57,8 +60,11 @@ science:
 
 # recipes to produce on-site wherever they are needed (i.e. defer to their ingredients)
 onsite:
-  - copper-wire
-
+  - copper-cable
+  - iron-stick
+  - stone-furnace
+  - water
+  - yellow-ammo
 
 # output phases for outpost production
 # each phase is list of maps from an item name (or alias) to the number of items to keep on hand
@@ -76,47 +82,54 @@ outposts:
     - red-ammo: 1600
       grenade: 100
       turret: 50
-      stone-wall: 200
-      gate: 50
+    - stone-wall: 200
+    - gate: 50
     - laser-turret: 50
-    - uranium-ammo: 1600
+    # - uranium-ammo: 1600
 
   chemicals:
+    - petroleum-gas: 0
+      light-oil: 0
+      heavy-oil: 0
     - plastic: 1600
-      battery: 800
       lubricant: 0
-    - explosive: 200
-      
+      sulfur: 0
+    - acid: 0
+    - explosives: 200
+      battery: 800
+
   central:
-    - inserter: 100
-      yellow-belt: 200
-      engine-unit: 100
-      railway: 400
-      rail-signal: 50
-      rail-chain-signal: 50
-      electric-mining-drill: 50
+    - yellow-belt: 200
+      pipe: 200
       steel-furnace: 50
       steel-chest: 100
+    - engine: 100
       boiler: 50
       steam-engine: 50
-    - electric-motor: 0
-      flying-robot-frame: 400
-      roboport: 50
-      passive-provider-chest: 200
-      active-provider-chest: 50
-      storage-chest: 100
-      requester-chest: 400
-      electric-furnace: 100
+      inserter: 100
+      electric-mining-drill: 50
+      rail: 400
+      rail-signal: 50
+      rail-chain-signal: 50
     - centrifuge: 100
       heat-exchanger: 100
       steam-turbine: 100
+      electric-motor: 0
+    - flying-robot-frame: 400
+      roboport: 50
+      logistic-chest-passive-provider: 200
+      logistic-chest-active-provider: 50
+      logistic-chest-storage: 100
+      logistic-chest-requester: 400
+      electric-furnace: 100
 
   copper:
     - copper: 1000
 
   iron:
     - iron: 1000
-      gear: 1000
+      iron-ore: 0
+    - gear: 1000
       steel: 1000
 
   coal:
@@ -124,9 +137,9 @@ outposts:
 
   stone:
     - stone: 100
-      landfill: 200
+    - stone-brick: 100
+    - landfill: 200
       concrete: 200
-      stone-brick: 100
 
 
 # can't get this out of the game, so pulling from the website :(
