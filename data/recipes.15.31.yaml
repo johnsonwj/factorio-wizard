@@ -14,6 +14,10 @@ advanced-oil-processing:
   ingredients:
     crude-oil: 100
     water: 50
+  results:
+    heavy-oil: 10
+    light-oil: 45
+    petroleum-gas: 55
 arithmetic-combinator:
   ingredients:
     copper-cable: 5
@@ -44,6 +48,10 @@ basic-oil-processing:
   energy_required: 5
   ingredients:
     crude-oil: 100
+  results:
+    heavy-oil: 30
+    light-oil: 30
+    petroleum-gas: 40
 battery:
   category: chemistry
   ingredients:
@@ -126,6 +134,10 @@ coal-liquefaction:
     coal: 10
     heavy-oil: 25
     steam: 50
+  results:
+    heavy-oil: 35
+    light-oil: 15
+    petroleum-gas: 20
 combat-shotgun:
   energy_required: 10
   ingredients:
@@ -500,6 +512,7 @@ heavy-oil-cracking:
   ingredients:
     heavy-oil: 40
     water: 30
+  result_count: 30
 high-tech-science-pack:
   energy_required: 14
   ingredients:
@@ -572,6 +585,7 @@ light-oil-cracking:
   ingredients:
     light-oil: 30
     water: 30
+  result_count: 20
 loader:
   energy_required: 1
   ingredients:
@@ -625,6 +639,7 @@ lubricant:
   energy_required: 1
   ingredients:
     heavy-oil: 10
+  result_count: 10
 medium-electric-pole:
   ingredients:
     copper-plate: 2
@@ -720,6 +735,7 @@ plastic-bar:
   ingredients:
     coal: 1
     petroleum-gas: 20
+  result_count: 2
 player-port:
   ingredients:
     electronic-circuit: 10
@@ -961,16 +977,19 @@ solid-fuel-from-heavy-oil:
   energy_required: 3
   ingredients:
     heavy-oil: 20
+  result_count: 1
 solid-fuel-from-light-oil:
   category: chemistry
   energy_required: 3
   ingredients:
     light-oil: 10
+  result_count: 1
 solid-fuel-from-petroleum-gas:
   category: chemistry
   energy_required: 3
   ingredients:
     petroleum-gas: 20
+  result_count: 1
 speed-module:
   energy_required: 15
   ingredients:
@@ -1062,6 +1081,7 @@ sulfur:
   ingredients:
     petroleum-gas: 30
     water: 30
+  result_count: 2
 sulfuric-acid:
   category: chemistry
   energy_required: 1
@@ -1069,6 +1089,7 @@ sulfuric-acid:
     iron-plate: 1
     sulfur: 5
     water: 100
+  result_count: 50
 tank:
   ingredients:
     advanced-circuit: 10

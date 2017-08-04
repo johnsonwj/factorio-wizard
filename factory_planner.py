@@ -19,6 +19,7 @@ def unalias(alias_name):
 def get_science_recipe(science_color):
     return recipes[unalias('{}-science'.format(science_color))]
 
+
 sciences = map(get_science_recipe, config['science'])
 
 
@@ -29,6 +30,7 @@ def make_outposts(outpost_name, outpost_specs):
                  for spec in outpost_specs]
 
     return [(outpost_name, idx, schedule) for (idx, schedule) in zip(range(len(schedules)), schedules)]
+
 
 outposts = [ophase for item in config['outposts'].items() for ophase in make_outposts(*item)]
 
@@ -120,39 +122,74 @@ def crafting_effort(recipe_name):
 
     recipe = recipes[actual_recipe_name]
 
-    if 'result_count' in recipe:
-        result_count = recipe['result_count']
-    else:
-        result_count = 1
-
     if 'energy_required' in recipe:
-        return recipe['energy_required'] / result_count
+        return recipe['energy_required']
 
-    return 0.5 / result_count # default
+    return 0.5  # default
+
+
+def result_count(recipe_name):
+    actual_recipe_name = unalias(recipe_name)
+
+    if actual_recipe_name not in recipes:
+        return 1
+
+    recipe = recipes[actual_recipe_name]
+
+    if 'result_count' in recipe:
+        return recipe['result_count']
+
+    return 1
+
+
+def factory_fuel():
+    if 'chemicals' not in factory:
+        return 'coal'
+
+    if 'light-oil-to-solid-fuel' in factory['chemicals'][1]:
+        return 'solid-fuel'
+
+    return 'coal'
 
 
 def total_rates(recipe_name, recipe_rate):
+    actual_recipe_name = unalias(recipe_name)
     mining_speed = config['additional-data']['mining-speed']
+
+    smelting_consumption = config['additional-data']['smelting-burner-consumption']['steel-furnace']
+    smelting_speed = config['additional-data']['smelting-speed']['steel-furnace']
+    fuel_name = factory_fuel()
+    fuel_energy = config['additional-data']['fuel-values'][fuel_name]
 
     total_mining_rates = dict()
     total_smelting_rates = dict()
     total_crafting_rates = dict()
 
+    effective_rate = recipe_rate / result_count(recipe_name)
+
     if recipe_name in mining_speed:
-        add_or_insert(total_mining_rates, recipe_name, recipe_rate)
+        add_or_insert(total_mining_rates, actual_recipe_name, effective_rate)
     elif is_smelting_recipe(recipe_name):
-        add_or_insert(total_smelting_rates, recipe_name, recipe_rate)
-    else:
-        add_or_insert(total_crafting_rates, recipe_name, recipe_rate)
+        add_or_insert(total_smelting_rates, actual_recipe_name, effective_rate)
 
-        ingredient_schedule = {ing_name: ing_count * recipe_rate
-                               for ing_name, ing_count in ingredients(recipe_name).items()}
+        fuel_schedule = {fuel_name: effective_rate * smelting_consumption / (smelting_speed * fuel_energy * 1000.)}
+        fuel_mining, fuel_smelting, fuel_crafting = schedule_total_rates(fuel_schedule)
 
-        ing_mining_rates, ing_smelting_rates, ing_crafting_rates = schedule_total_rates(ingredient_schedule)
+        total_mining_rates = sum_dict_values(total_mining_rates, fuel_mining)
+        total_smelting_rates = sum_dict_values(total_smelting_rates, fuel_smelting)
+        total_crafting_rates = sum_dict_values(total_crafting_rates, fuel_crafting)
 
-        total_mining_rates = sum_dict_values(total_mining_rates, ing_mining_rates)
-        total_smelting_rates = sum_dict_values(total_smelting_rates, ing_smelting_rates)
-        total_crafting_rates = sum_dict_values(total_crafting_rates, ing_crafting_rates)
+    elif actual_recipe_name in recipes:
+        add_or_insert(total_crafting_rates, actual_recipe_name, effective_rate)
+
+    ingredient_schedule = {ing_name: ing_count * effective_rate
+                           for ing_name, ing_count in ingredients(recipe_name).items()}
+
+    ing_mining_rates, ing_smelting_rates, ing_crafting_rates = schedule_total_rates(ingredient_schedule)
+
+    total_mining_rates = sum_dict_values(total_mining_rates, ing_mining_rates)
+    total_smelting_rates = sum_dict_values(total_smelting_rates, ing_smelting_rates)
+    total_crafting_rates = sum_dict_values(total_crafting_rates, ing_crafting_rates)
 
     return total_mining_rates, total_smelting_rates, total_crafting_rates
 
@@ -193,7 +230,7 @@ def upgrade_requirements(upgrade):
     def ru(f):
         return int(math.ceil(f))
 
-    smelters_needed = {recipe_name: ru(rate / smelting_speed['steel-furnace'])
+    smelters_needed = {recipe_name: ru(rate * crafting_effort(recipe_name) / smelting_speed['steel-furnace'])
                        for recipe_name, rate in total_smelting_rates.items()}
 
     miners_needed = {recipe_name: ru(rate / mining_speed[recipe_name])
@@ -252,5 +289,3 @@ while len(outposts) > 0:
     outposts = navailable
 
 print_results()
-
-

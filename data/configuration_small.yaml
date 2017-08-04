@@ -72,75 +72,17 @@ onsite:
 # phases are cumulative (e.g. Phase 2 automatically also includes all items from Phase 1)
 outposts:
   tech:
-    - green-circuit: 50
-    - red-circuit: 50
-      solar-panel: 20
-      accumulator: 20
-    - blue-circuit: 10
-
-  weapons:
-    - red-ammo: 250
-      grenade: 10
-      turret: 5
-      stone-wall: 50
-    - gate: 5
-      laser-turret: 5
-    # - uranium-ammo: 1600
-
-  chemicals:
-    - petroleum-gas: 0
-      light-oil: 0
-      heavy-oil: 0
-    - plastic: 200
-      lubricant: 0
-      sulfur: 0
-      light-oil-to-solid-fuel: 0
-    - acid: 0
-    - explosives: 50
-      battery: 50
-
-  central:
-    - yellow-belt: 100
-      pipe: 100
-      steel-furnace: 5
-      steel-chest: 25
-    - engine: 16
-      boiler: 4
-      steam-engine: 8
-      inserter: 50
-      electric-mining-drill: 4
-      rail: 100
-      rail-signal: 4
-      rail-chain-signal: 4
-    - centrifuge: 5
-      heat-exchanger: 5
-      steam-turbine: 5
-      electric-motor: 0
-    - flying-robot-frame: 50
-      roboport: 5
-      logistic-chest-passive-provider: 20
-      logistic-chest-active-provider: 10
-      logistic-chest-storage: 10
-      logistic-chest-requester: 20
-      electric-furnace: 5
+    - green-circuit: 400
 
   copper:
     - copper: 1000
 
   iron:
     - iron: 1000
-      iron-ore: 0
-    - gear: 1000
-      steel: 1000
 
   coal:
     - coal: 500
 
-  stone:
-    - stone: 100
-    - stone-brick: 50
-    - landfill: 20
-      concrete: 20
 
 
 # can't get this out of the game, so pulling from the website :(
