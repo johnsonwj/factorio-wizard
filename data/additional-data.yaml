@@ -1,0 +1,25 @@
+# can't get this out of the game, so pulling from the website :(
+
+smelting-burner-consumption: 180.0 # kW
+
+fuel-values: # MJ
+  coal: 8.0
+  solid-fuel: 25.0
+
+smelting-speed: 2.0 # effort / sec
+
+mining-speed: # ore / sec
+  iron-ore: 0.525
+  copper-ore: 0.525
+  coal: 0.525
+  stone: 0.65
+
+crafting-speed: # effort / sec
+  assembling-machine-2: 0.75
+  assembling-machine-3: 1.25
+
+chemistry-speed: 1.25 # effort/sec
+
+lab-research-time: 15 # avg. seconds to consume one science pack
+# note: most recipes only consume one per 30 seconds, but some require 2/30
+# better to be over than under...
