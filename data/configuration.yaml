@@ -1,3 +1,5 @@
 version: '15.31'
 
 lab-count: 8
+production-cycle-length: 300 # seconds per cycle (for displaying rates)
+advanced-oil-processing: false
